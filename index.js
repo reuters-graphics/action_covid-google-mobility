@@ -4,6 +4,8 @@ const csv = require('csvtojson');
 const axios = require('axios');
 const d3 = Object.assign({}, require('d3-collection'));
 
+const publishJson = require('./lib/publishJSON.js');
+
 const headline_figures =
   'https://raw.githubusercontent.com/datasciencecampus/google-mobility-reports-data/master/csvs/international_national_trends_G20_SE.csv';
 const SOURCE_PATH_HEADLINES = path.resolve(
@@ -69,7 +71,8 @@ async function parseCSVToJSON(source_path) {
     }
   }
   writeJSONLocally(data, path.resolve(__dirname, 'data/latest_parsed.json'));
-  console.log(data.data);
+
+  await publishJson(data, 'latest.json');
 }
 
 const writeJSONLocally = (data, location) =>
